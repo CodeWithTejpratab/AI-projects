@@ -12,12 +12,16 @@ def configureRandomly(board, state):
  		# obtained place in
  		# chessboard.
         board[state[i]][i] = 1
-	
+
 def printBoard(board):
     """Print the 2D array board configuration."""
-    for row in board:
-        print(*row)
-    print()
+    print("    " + "   ".join(str(i) for i in range(N)))
+    print("  +" + "---+" * N)
+
+    for i, row in enumerate(board):
+        row_display = " | ".join("♛" if cell == 1 else " " for cell in row)
+        print(f"{i} | {row_display} |") 
+        print("  +" + "---+" * N) 
 
 def printState(state):
     """Print the state array."""
@@ -202,22 +206,22 @@ def hillClimbing(board, state):
 			# Random neighbor
 			neighbourState[randint(0, N-1)] = randint(0, N-1)
 			generateBoard(neighbourBoard, neighbourState)
-		
+				
 # Main
-successful_solutions = 0
-total_attempts = 0
+successfulSolutions = 0
+totalAttempts = 0
 
-while successful_solutions == 0 or total_attempts < 20:
-    total_attempts += 1
+while successfulSolutions == 0 or totalAttempts < 20:
+    totalAttempts += 1
     state = [0] * N
     board = [[0 for _ in range(N)] for _ in range(N)]
     configureRandomly(board, state)
 
     if hillClimbing(board, state):
-        print(f"Solution #{successful_solutions + 1} (Found in attempt {total_attempts}):")
+        print(f"Solution #{successfulSolutions + 1} (Found in attempt {totalAttempts}):")
         printBoard(board)
-        successful_solutions += 1
+        successfulSolutions += 1
 
-print(f"\nTotal attempts: {total_attempts}")
-print(f"Successful solutions: {successful_solutions}")
-print(f"Success rate: {successful_solutions / total_attempts * 100}%")
+print(f"\nTotal attempts: {totalAttempts}")
+print(f"Successful solutions: {successfulSolutions}")
+print(f"Success rate: {successfulSolutions / totalAttempts * 100}%")
